@@ -1,0 +1,71 @@
+# Unity generated files
+Library/
+Temp/
+Logs/
+UserSettings/
+MemoryCaptures/
+Recordings/
+
+# Visual Studio / VS Code
+.vs/
+.vsconfig
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# Unity3D generated meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity3D crash reports
+sysinfo.txt
+
+# Builds
+Build/
+Builds/
+*.apk
+*.aab
+*.unitypackage
+*.app
+
+# Test reports
+TestReport*.json
+ExtendedTestReport*.json
+test_output.txt
+test_run.log
+test_run_output.txt
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# OMC files
+.omc/
+
+# Temporary files
+Scripts/
+EOF
+ENDOFSCENE
+!
