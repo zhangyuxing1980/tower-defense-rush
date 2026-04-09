@@ -1072,8 +1072,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   runOnStart: 1
   categoriesToRun: []
-  categoriesToSkip:
-  - Combat
+  categoriesToSkip: []
   minPriority: 0
   maxPriority: 999
   generateReport: 1

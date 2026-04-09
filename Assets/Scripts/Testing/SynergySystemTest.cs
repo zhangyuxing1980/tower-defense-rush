@@ -79,22 +79,25 @@ namespace TowerDefenseRush.Testing
         {
             LogInfo("测试1: 基础协同触发");
 
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
             Enemy enemy = SpawnTestEnemy("BasicEnemy");
             testEnemies.Add(enemy);
 
             float initialHealth = enemy.currentHealth;
             int initialCount = synergyTriggerCount;
 
-            // 连续攻击3次
+            // 连续攻击3次（使用小伤害避免杀死敌人，使用真实时间等待）
             for (int i = 0; i < 3; i++)
             {
-                bool triggered = synergySystem.RegisterHit(enemy, 10f, player.transform);
+                bool triggered = synergySystem.RegisterHit(enemy, 5f, player.transform);
                 if (triggered)
                 {
                     synergyTriggerCount++;
                     LogInfo($"第{i+1}次攻击触发协同！");
                 }
-                yield return Wait(0.2f);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
 
             Assert(synergyTriggerCount > initialCount, "3次连续攻击应触发协同");
@@ -110,21 +113,24 @@ namespace TowerDefenseRush.Testing
         {
             LogInfo("测试2: 连击时间窗口重置");
 
+            // 确保时间缩放正常（防止之前的测试影响）
+            Time.timeScale = 1f;
+
             Enemy enemy = SpawnTestEnemy("TimerEnemy");
             testEnemies.Add(enemy);
 
-            // 攻击2次
-            synergySystem.RegisterHit(enemy, 10f, player.transform);
-            yield return Wait(0.2f);
-            synergySystem.RegisterHit(enemy, 10f, player.transform);
+            // 攻击2次（使用短时间等待，避免触发协同）
+            synergySystem.RegisterHit(enemy, 5f, player.transform);
+            yield return new WaitForSecondsRealtime(0.1f);
+            synergySystem.RegisterHit(enemy, 5f, player.transform);
 
             LogInfo("已攻击2次，等待超过重置时间...");
 
-            // 等待超过重置时间（默认2秒）
-            yield return Wait(2.5f);
+            // 等待超过重置时间（使用真实时间，不受Time.timeScale影响）
+            yield return new WaitForSecondsRealtime(2.5f);
 
-            // 第3次攻击应该重新开始计数
-            bool triggered = synergySystem.RegisterHit(enemy, 10f, player.transform);
+            // 第3次攻击应该重新开始计数（不会触发协同）
+            bool triggered = synergySystem.RegisterHit(enemy, 5f, player.transform);
             Assert(!triggered, "超时后不应触发协同，应重新开始计数");
 
             LogInfo("时间窗口重置测试通过");
@@ -137,27 +143,30 @@ namespace TowerDefenseRush.Testing
         {
             LogInfo("测试3: 切换目标重置连击");
 
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
             Enemy enemy1 = SpawnTestEnemy("Enemy1");
             Enemy enemy2 = SpawnTestEnemy("Enemy2");
             testEnemies.Add(enemy1);
             testEnemies.Add(enemy2);
 
-            // 攻击enemy1两次
-            synergySystem.RegisterHit(enemy1, 10f, player.transform);
-            yield return Wait(0.2f);
-            synergySystem.RegisterHit(enemy1, 10f, player.transform);
+            // 攻击enemy1两次（使用小伤害，使用真实时间）
+            synergySystem.RegisterHit(enemy1, 5f, player.transform);
+            yield return new WaitForSecondsRealtime(0.1f);
+            synergySystem.RegisterHit(enemy1, 5f, player.transform);
 
             // 切换到enemy2攻击
-            yield return Wait(0.2f);
-            bool triggered = synergySystem.RegisterHit(enemy2, 10f, player.transform);
+            yield return new WaitForSecondsRealtime(0.1f);
+            bool triggered = synergySystem.RegisterHit(enemy2, 5f, player.transform);
 
             Assert(!triggered, "切换目标后不应立即触发协同");
 
             // 继续攻击enemy2两次应该触发
-            yield return Wait(0.2f);
-            synergySystem.RegisterHit(enemy2, 10f, player.transform);
-            yield return Wait(0.2f);
-            triggered = synergySystem.RegisterHit(enemy2, 10f, player.transform);
+            yield return new WaitForSecondsRealtime(0.1f);
+            synergySystem.RegisterHit(enemy2, 5f, player.transform);
+            yield return new WaitForSecondsRealtime(0.1f);
+            triggered = synergySystem.RegisterHit(enemy2, 5f, player.transform);
 
             Assert(triggered, "对新目标连续3次攻击应触发协同");
 
@@ -173,23 +182,26 @@ namespace TowerDefenseRush.Testing
         {
             LogInfo("测试4: 协同伤害数值");
 
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
             Enemy enemy = SpawnTestEnemy("DamageEnemy");
             testEnemies.Add(enemy);
 
             float initialHealth = enemy.currentHealth;
-            float baseDamage = 10f;
+            float baseDamage = 5f;
             float expectedMultiplier = 2f; // 协同伤害倍数
 
             // 普通攻击
             synergySystem.RegisterHit(enemy, baseDamage, player.transform);
-            yield return Wait(0.2f);
+            yield return new WaitForSecondsRealtime(0.1f);
             synergySystem.RegisterHit(enemy, baseDamage, player.transform);
 
             float healthBeforeSynergy = enemy.currentHealth;
 
             // 触发协同的第三次攻击
             synergySystem.RegisterHit(enemy, baseDamage, player.transform);
-            yield return Wait(0.1f);
+            yield return new WaitForSecondsRealtime(0.1f);
 
             float healthAfterSynergy = enemy.currentHealth;
             float actualDamage = healthBeforeSynergy - healthAfterSynergy;
@@ -206,14 +218,17 @@ namespace TowerDefenseRush.Testing
         {
             LogInfo("测试5: 眩晕效果");
 
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
             Enemy enemy = SpawnTestEnemy("StunEnemy");
             testEnemies.Add(enemy);
 
             // 触发协同
             for (int i = 0; i < 3; i++)
             {
-                synergySystem.RegisterHit(enemy, 10f, player.transform);
-                yield return Wait(0.2f);
+                synergySystem.RegisterHit(enemy, 5f, player.transform);
+                yield return new WaitForSecondsRealtime(0.1f);
             }
 
             // 检查敌人是否被眩晕
@@ -228,26 +243,29 @@ namespace TowerDefenseRush.Testing
 
         IEnumerator TestMultipleEnemies()
         {
-            LogInfo("Test 6: Multi-enemy scenario");
+            LogInfo("测试6: 多敌人场景");
 
-            // Spawn 1 enemy only for faster test
+            // 确保时间缩放正常
+            Time.timeScale = 1f;
+
+            // 只生成1个敌人进行快速测试
             Enemy enemy = SpawnTestEnemy("MultiEnemy");
             testEnemies.Add(enemy);
 
             int totalTriggers = 0;
 
-            // Attack enemy 3 times without yield
+            // 连续攻击敌人3次
             for (int i = 0; i < 3; i++)
             {
-                if (synergySystem.RegisterHit(enemy, 10f, player.transform))
+                if (synergySystem.RegisterHit(enemy, 5f, player.transform))
                 {
                     totalTriggers++;
                 }
             }
 
-            Assert(totalTriggers >= 1, "Should trigger at least 1 synergy");
+            Assert(totalTriggers >= 1, "应至少触发1次协同");
 
-            LogInfo($"Multi-enemy test completed. Triggers: {totalTriggers}");
+            LogInfo($"多敌人测试完成。触发次数: {totalTriggers}");
 
             Destroy(enemy.gameObject);
             testEnemies.Remove(enemy);
@@ -300,4 +318,3 @@ namespace TowerDefenseRush.Testing
         }
     }
 }
-// Force recompile

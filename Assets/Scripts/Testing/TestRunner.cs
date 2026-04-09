@@ -189,10 +189,6 @@ namespace TowerDefenseRush.Testing
                 filtered = filtered.Where(t => !categoriesToSkip.Contains(t.Category)).ToList();
             }
 
-            // 临时: 硬编码跳过Combat类别测试（避免超时）
-            filtered = filtered.Where(t => t.Category != "Combat").ToList();
-            Debug.Log("[TestRunner] 已自动跳过Combat类别测试");
-
             // 按优先级过滤
             filtered = filtered.Where(t => t.Priority >= minPriority && t.Priority <= maxPriority).ToList();
 
