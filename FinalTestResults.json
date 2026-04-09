@@ -1,0 +1,12 @@
+{
+  "results": {
+    "SYNERGY_001": "PASSED",
+    "JIMMY_001": "PASSED",
+    "COMBAT_001": "PASSED",
+    "PERF_001": "PASSED",
+    "WAVE_001": "PASSED"
+  },
+  "passed": 5,
+  "failed": 0,
+  "not_run": 0
+}

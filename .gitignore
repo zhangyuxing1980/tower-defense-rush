@@ -64,8 +64,8 @@ Thumbs.db
 # OMC files
 .omc/
 
-# Temporary files
-Scripts/
+# Temporary files (root level only)
+/Scripts/
 EOF
 ENDOFSCENE
 !

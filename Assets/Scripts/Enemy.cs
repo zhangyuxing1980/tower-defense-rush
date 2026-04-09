@@ -145,7 +145,7 @@ namespace TowerDefenseRush.Prototype
             var player = target.GetComponent<PlayerController>();
             if (player != null)
             {
-                // 原型简化：直接调用玩家的受伤逻辑
+                player.TakeDamage(attackDamage);
                 return;
             }
 
@@ -153,7 +153,18 @@ namespace TowerDefenseRush.Prototype
             var jimmy = target.GetComponent<Jimmy>();
             if (jimmy != null)
             {
+                // 吉米受伤逻辑（简化版）
+                Debug.Log($"[{name}] 攻击 {jimmy.name}");
                 return;
+            }
+
+            // 攻击城镇
+            if (target.CompareTag("TownCenter") || target.name.Contains("Town"))
+            {
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.DamageTown(attackDamage);
+                }
             }
         }
 

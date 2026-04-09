@@ -1,0 +1,61 @@
+============================================================
+Unity PlayMode Test Runner - Full Suite
+============================================================
+Found Unity instance: tower-defense-rush@f3752e806f3f2b34
+Entered Play Mode
+
+Waiting for tests to complete (up to 4 minutes)...
+------------------------------------------------------------
+  ========== 开始自动化测试 ==========
+  发现 5 个测试用例
+    - [SYNERGY_001] 协同系统详细测试 (优先级: 1)
+    - [JIMMY_001] 吉米AI行为测试 (优先级: 1)
+    - [COMBAT_001] 协同攻击系统测试 (优先级: 1)
+    - [PERF_001] 性能测试 (优先级: 2)
+    - [WAVE_001] 波次系统测试 (优先级: 2)
+  [TestRunner] categoriesToSkip is empty
+  发现 5 个测试，将运行 5 个
+    - [SYNERGY_001] 协同系统详细测试 (类别: Combat, 优先级: 1) 
+    - [JIMMY_001] 吉米AI行为测试 (类别: AI, 优先级: 1) 
+    - [COMBAT_001] 协同攻击系统测试 (类别: Combat, 优先级: 1) 
+    - [PERF_001] 性能测试 (类别: Performance, 优先级: 2) 
+    - [WAVE_001] 波次系统测试 (类别: Wave, 优先级: 2) 
+  >>> 开始测试: 协同系统详细测试 [SYNERGY_001]
+  [Test] [SYNERGY_001] [Info] [SYNERGY_001] 设置测试环境...
+  [Test] [SYNERGY_001] [Info] 初始化协同系统测试
+  [PASS] SYNERGY_001
+  [Test] [SYNERGY_001] [Debug] 断言通过: 场景中必须有协同系统
+  [Test] [SYNERGY_001] [Debug] 断言通过: 场景中必须有玩家
+  [VisualTestRunner] 可视化测试运行器启动
+  [Test] [SYNERGY_001] [Info] 开始协同系统详细测试
+  [Test] [SYNERGY_001] [Info] 测试1: 基础协同触发
+  [Test] [SYNERGY_001] [Info] 第3次攻击触发协同！
+  [Test] [SYNERGY_001] [Debug] 断言通过: 3次连续攻击应触发协同
+  [Test] [SYNERGY_001] [Info] 基础协同测试完成，造成伤害: 10.00
+  [Test] [SYNERGY_001] [Info] 测试2: 连击时间窗口重置
+  [Test] [SYNERGY_001] [Info] 已攻击2次，等待超过重置时间...
+  ... 30s elapsed, 1/5 tests completed
+  ... 60s elapsed, 1/5 tests completed
+  ... 91s elapsed, 1/5 tests completed
+  ... 121s elapsed, 1/5 tests completed
+  ... 151s elapsed, 1/5 tests completed
+  ... 181s elapsed, 1/5 tests completed
+  ... 212s elapsed, 1/5 tests completed
+  ... 242s elapsed, 1/5 tests completed
+------------------------------------------------------------
+
+Exited Play Mode
+
+============================================================
+TEST RESULTS SUMMARY
+============================================================
+  SYNERGY_001: PASSED
+  JIMMY_001: NOT RUN
+  COMBAT_001: NOT RUN
+  PERF_001: NOT RUN
+  WAVE_001: NOT RUN
+
+Total: 1 passed, 0 failed, 4 not run
+Result: INCOMPLETE - may need longer timeout
+============================================================
+Report saved to FullTestReport.json

@@ -15,22 +15,29 @@ namespace TowerDefenseRush.Prototype
         public float moveSpeed = 5f;
         public Joystick joystick; // 简单摇杆引用
 
+        [Header("Health")]
+        public float maxHealth = 100f;
+        public float currentHealth = 100f;
+        public bool IsAlive => currentHealth > 0;
+
         [Header("Combat")]
         public float attackRange = 3f;
         public float attackDamage = 15f;
         public float attackCooldown = 0.5f;
         public LayerMask enemyLayer;
 
+        [Header("Events")]
+        public System.Action OnDeath;
+
         [Header("Visual")]
         public Transform visualTransform;
         public Transform attackPoint;
+        public SpriteRenderer healthBar;
 
         // 公开属性供测试使用
         public float baseAttackSpeed { get; set; } = 1f;
         public float baseMoveSpeed { get; set; } = 5f;
         public float attackSpeed { get; set; } = 1f;
-        public float currentHealth { get; set; } = 100f;
-        public float maxHealth { get; set; } = 100f;
 
         private float lastAttackTime;
         private Rigidbody2D rb;
@@ -174,6 +181,63 @@ namespace TowerDefenseRush.Prototype
                     1f,
                     1f
                 );
+            }
+        }
+
+        public void TakeDamage(float damage)
+        {
+            if (!IsAlive) return;
+            if (GameManager.Instance != null && !GameManager.Instance.IsPlaying) return;
+
+            currentHealth -= damage;
+            UpdateHealthBar();
+
+            // 受伤闪烁
+            if (visualTransform != null)
+            {
+                SpriteRenderer sr = visualTransform.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.color = Color.red;
+                    Invoke(nameof(ResetColor), 0.1f);
+                }
+            }
+
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+        }
+
+        void UpdateHealthBar()
+        {
+            if (healthBar != null)
+            {
+                float healthPercent = currentHealth / maxHealth;
+                healthBar.transform.localScale = new Vector3(healthPercent, 1f, 1f);
+            }
+        }
+
+        void ResetColor()
+        {
+            if (visualTransform != null)
+            {
+                SpriteRenderer sr = visualTransform.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                    sr.color = Color.white;
+            }
+        }
+
+        void Die()
+        {
+            currentHealth = 0;
+            OnDeath?.Invoke();
+            Debug.Log("💀 玩家死亡！");
+
+            // 通知游戏管理器
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.DamageTown(9999f); // 玩家死亡 = 游戏结束
             }
         }
 

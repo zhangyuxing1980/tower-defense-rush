@@ -134,6 +134,7 @@ namespace TowerDefenseRush.Testing
                 AddTestIfMissing<CombatSystemTest>(container);
                 AddTestIfMissing<PerformanceTest>(container);
                 AddTestIfMissing<WaveSystemTest>(container);
+                AddTestIfMissing<VictoryConditionTest>(container);
 
                 // 重新查找测试用例
                 testComponents = FindObjectsOfType<MonoBehaviour>()
